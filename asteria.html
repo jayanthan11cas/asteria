@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Hello, World!</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+      <h1 class="title">Hello World!</h1>
+      <p id="currentTime"></p>
+      <script src="script.js"></script>
+  </body>
+</html><!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Asteria</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:#fff;font-family:arial,helvetica,sans-serif;font-size:13px;color:#000;}
+a{color:#0000cc;text-decoration:underline;}
+a:visited{color:#551a8b;}
+a:hover{color:#cc0000;}
+.page{display:none;}
+.page.active{display:block;}
+#page-home.active{display:flex;}
+#page-home{flex-direction:column;align-items:center;min-height:100vh;padding:0 8px;}
+.home-topbar{width:100%;max-width:700px;display:flex;justify-content:flex-end;padding:4px 0 2px;font-size:11px;border-bottom:1px solid #ccc;}
+.home-topbar a{margin-left:10px;cursor:pointer;}
+.home-spacer{flex:1;max-height:80px;}
+.logo-wrap{text-align:center;margin-bottom:6px;position:relative;display:inline-block;}
+.logo-text{font-family:'Arial Black',impact,sans-serif;font-size:72px;font-weight:900;letter-spacing:-3px;line-height:1;display:inline-block;transform-style:preserve-3d;animation:logo3d 4s ease-in-out infinite;cursor:default;user-select:none;}
+@keyframes logo3d{0%{transform:rotateY(0deg) rotateX(0deg) scale(1);}15%{transform:rotateY(25deg) rotateX(8deg) scale(1.06);}30%{transform:rotateY(-18deg) rotateX(-5deg) scale(1.04);}50%{transform:rotateY(0deg) rotateX(0deg) scale(1.08);}65%{transform:rotateY(20deg) rotateX(6deg) scale(1.04);}80%{transform:rotateY(-22deg) rotateX(-7deg) scale(1.06);}100%{transform:rotateY(0deg) rotateX(0deg) scale(1);}}
+.logo-text span{display:inline-block;animation:letterFloat 4s ease-in-out infinite;transition:transform 0.2s;}
+.logo-text span:hover{transform:translateZ(30px) scale(1.3)!important;animation-play-state:paused;}
+.logo-text span:nth-child(1){animation-delay:0s;}.logo-text span:nth-child(2){animation-delay:.1s;}.logo-text span:nth-child(3){animation-delay:.2s;}.logo-text span:nth-child(4){animation-delay:.3s;}.logo-text span:nth-child(5){animation-delay:.4s;}.logo-text span:nth-child(6){animation-delay:.5s;}.logo-text span:nth-child(7){animation-delay:.6s;}.logo-text span:nth-child(8){animation-delay:.7s;}
+@keyframes letterFloat{0%,100%{transform:translateY(0) translateZ(0);}25%{transform:translateY(-6px) translateZ(12px);}75%{transform:translateY(4px) translateZ(-6px);}}
+.l-b{color:#3366cc;text-shadow:3px 3px 0 #1a3a8a,6px 6px 0 rgba(51,102,204,.3);}
+.l-r1{color:#cc0000;text-shadow:3px 3px 0 #7a0000,6px 6px 0 rgba(204,0,0,.3);}
+.l-y{color:#ffcc00;text-shadow:3px 3px 0 #997a00,6px 6px 0 rgba(255,204,0,.3);}
+.l-b2{color:#3366cc;text-shadow:3px 3px 0 #1a3a8a,6px 6px 0 rgba(51,102,204,.3);}
+.l-g{color:#009900;text-shadow:3px 3px 0 #005500,6px 6px 0 rgba(0,153,0,.3);}
+.l-r2{color:#cc0000;text-shadow:3px 3px 0 #7a0000,6px 6px 0 rgba(204,0,0,.3);}
+.l-ex{color:#3366cc;text-shadow:3px 3px 0 #1a3a8a,6px 6px 0 rgba(51,102,204,.3);}
+.l-exclaim{color:#cc0000;text-shadow:3px 3px 0 #7a0000,6px 6px 0 rgba(204,0,0,.3);animation-delay:.8s;}
+.logo-beta-wrap{display:inline-block;position:relative;vertical-align:top;margin-left:2px;}
+.logo-beta{font-size:11px;color:#cc0000;font-style:italic;font-family:arial,sans-serif;position:absolute;top:8px;left:4px;white-space:nowrap;}
+.logo-subtitle{font-size:12px;color:#666;text-align:center;margin-bottom:18px;}
+.search-tabs{display:flex;margin-bottom:0px;font-size:12px;}
+.search-tab{padding:4px 10px;border:1px solid #aaa;border-bottom:none;background:#ddd;color:#333;cursor:pointer;font-size:12px;font-family:arial,sans-serif;box-shadow:inset 1px 1px 0 #fff,inset -1px -1px 0 #999;}
+.search-tab:hover{background:#c8c8c8;}
+.search-tab.active{background:#fff;border-bottom:1px solid #fff;color:#000;font-weight:bold;position:relative;z-index:1;box-shadow:inset 1px 1px 0 #fff,inset -1px 0 0 #aaa;}
+.search-form-home{display:flex;flex-direction:column;align-items:center;width:100%;max-width:500px;}
+.search-box-outer{width:100%;border-top:2px solid #9a9a9a;border-left:2px solid #9a9a9a;border-right:2px solid #ffffff;border-bottom:2px solid #ffffff;padding:16px 20px 18px;background:#fff;margin-bottom:0;box-shadow:inset 1px 1px 0 #fff,2px 2px 4px rgba(0,0,0,.15);}
+.search-input-wrap{width:100%;margin-bottom:10px;border-top:2px solid #7a7a7a;border-left:2px solid #7a7a7a;border-right:2px solid #dfdfdf;border-bottom:2px solid #dfdfdf;background:#fff;box-shadow:inset 2px 2px 3px rgba(0,0,0,.12);}
+.search-input-wrap:focus-within{border-top-color:#3366cc;border-left-color:#3366cc;}
+.search-input{width:100%;font-size:16px;padding:5px 8px;border:none;outline:none;font-family:arial,sans-serif;}
+.search-buttons{display:flex;gap:8px;margin-top:2px;justify-content:center;}
+.btn-1999{background:#d4d0c8;color:#000;font-size:12px;font-family:arial,sans-serif;padding:4px 16px;cursor:pointer;border-top:2px solid #ffffff;border-left:2px solid #ffffff;border-right:2px solid #808080;border-bottom:2px solid #808080;box-shadow:1px 1px 0 #404040;outline:none;letter-spacing:.01em;}
+.btn-1999:hover{background:#c8c4bc;}
+.btn-1999:active{border-top:2px solid #808080;border-left:2px solid #808080;border-right:2px solid #ffffff;border-bottom:2px solid #ffffff;box-shadow:none;transform:translate(1px,1px);}
+.home-categories{margin-top:22px;text-align:center;font-size:12px;line-height:2;max-width:460px;}
+.home-categories a{margin:0 4px;cursor:pointer;}
+.home-footer{margin-top:auto;width:100%;border-top:1px solid #ccc;text-align:center;font-size:11px;color:#666;padding:8px 0 12px;}
+.home-footer a{margin:0 6px;}
+.results-topnav{background:#fff;border-bottom:1px solid #ccc;padding:4px 8px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.results-logo{font-family:'Arial Black',impact,sans-serif;font-size:26px;font-weight:900;letter-spacing:-1px;line-height:1;text-decoration:none;cursor:pointer;flex-shrink:0;}
+.results-search-wrap{display:flex;align-items:center;gap:4px;flex:1;}
+.results-input{font-size:14px;padding:3px 6px;border:2px solid #ccc;font-family:arial,sans-serif;width:340px;max-width:100%;outline:none;}
+.results-input:focus{border-color:#3366cc;}
+.results-tabs{background:#eee;border-bottom:1px solid #ccc;padding:0 8px;display:flex;font-size:12px;}
+.results-tab{padding:4px 12px 3px;border:1px solid transparent;border-bottom:none;color:#666;cursor:pointer;font-family:arial,sans-serif;text-decoration:none;}
+.results-tab.active{background:#fff;border-color:#ccc;border-bottom-color:#fff;color:#000;font-weight:bold;margin-bottom:-1px;}
+.results-tab:hover{color:#0000cc;}
+.results-layout{display:flex;max-width:900px;padding:6px 8px;}
+.results-main{flex:1;min-width:0;padding-right:16px;}
+.results-stats{font-size:11px;color:#666;margin-bottom:10px;padding-bottom:4px;border-bottom:1px solid #eee;}
+.result-item{margin-bottom:18px;}
+.result-title{font-size:14px;font-weight:normal;margin-bottom:1px;}
+.result-title a{font-size:14px;color:#0000cc;text-decoration:underline;cursor:pointer;}
+.result-title a:hover{color:#cc0000;}
+.result-desc{font-size:12px;color:#000;line-height:1.5;margin-bottom:2px;}
+.result-url{font-size:11px;color:#009900;}
+.result-cached{font-size:11px;color:#666;}
+.result-cached a{font-size:11px;color:#666;}
+.result-section-head{font-size:13px;font-weight:bold;color:#cc0000;border-bottom:1px solid #ccc;margin:16px 0 10px;padding-bottom:3px;}
+.visited-badge{font-size:10px;color:#551a8b;background:#f5f0ff;border:1px solid #cc99ff;padding:1px 4px;margin-left:4px;}
+hr.retro{border:none;border-top:1px solid #ccc;margin:6px 0;}
+.results-sidebar{width:200px;flex-shrink:0;font-size:12px;}
+.sidebar-box{border:1px solid #ccc;margin-bottom:12px;background:#fffef5;}
+.sidebar-title{background:#3366cc;color:#fff;font-size:11px;font-weight:bold;padding:3px 6px;letter-spacing:.05em;}
+.sidebar-body{padding:6px;line-height:1.6;}
+.sidebar-body a{font-size:11px;display:block;cursor:pointer;}
+.sidebar-body p{font-size:11px;color:#444;margin-bottom:4px;}
+.sponsored-box{border:1px solid #ffcc00;background:#fffde7;margin-bottom:14px;}
+.sponsored-title{background:#ffcc00;font-size:10px;font-weight:bold;padding:2px 6px;color:#333;text-transform:uppercase;letter-spacing:.08em;}
+.results-pagination{margin-top:20px;padding-top:8px;border-top:1px solid #ccc;text-align:center;font-size:12px;}
+.page-num{display:inline-block;margin:0 3px;font-size:14px;font-weight:bold;text-decoration:underline;color:#0000cc;cursor:pointer;}
+.page-num.current{color:#000;text-decoration:none;font-size:18px;}
+.results-footer{border-top:1px solid #ccc;padding:8px;text-align:center;font-size:11px;color:#666;margin-top:10px;}
+.results-footer a{margin:0 5px;font-size:11px;cursor:pointer;}
+.inner-topnav{background:#fff;border-bottom:2px solid #3366cc;padding:4px 12px;display:flex;align-items:center;gap:12px;font-size:11px;}
+.inner-logo{font-family:'Arial Black',impact,sans-serif;font-size:22px;font-weight:900;letter-spacing:-1px;cursor:pointer;text-decoration:none;}
+.inner-breadcrumb{color:#666;font-size:11px;}
+.inner-breadcrumb a{color:#0000cc;cursor:pointer;}
+.inner-body{max-width:780px;padding:14px 16px;}
+.inner-page-title{font-family:'Arial Black',impact,sans-serif;font-size:20px;border-bottom:2px solid #3366cc;padding-bottom:4px;margin-bottom:10px;color:#000;}
+.inner-meta{font-size:11px;color:#666;margin-bottom:12px;}
+.inner-section{margin-bottom:18px;}
+.inner-section h3{font-size:13px;color:#cc0000;margin-bottom:6px;border-bottom:1px solid #eee;padding-bottom:2px;}
+.inner-section p{font-size:12px;line-height:1.7;color:#000;margin-bottom:8px;}
+.inner-table{width:100%;border-collapse:collapse;font-size:12px;margin-bottom:14px;}
+.inner-table th{background:#3366cc;color:#fff;padding:4px 8px;text-align:left;font-weight:bold;}
+.inner-table td{padding:4px 8px;border-bottom:1px solid #ddd;vertical-align:top;}
+.inner-table tr:hover td{background:#f0f4ff;}
+.inner-form-group{margin-bottom:10px;}
+.inner-form-group label{display:block;font-size:11px;font-weight:bold;margin-bottom:3px;color:#333;}
+.inner-form-group input,.inner-form-group select,.inner-form-group textarea{width:100%;max-width:360px;padding:4px 6px;border:1px solid #999;font-family:arial,sans-serif;font-size:12px;outline:none;}
+.inner-form-group input:focus,.inner-form-group textarea:focus{border-color:#3366cc;}
+.inner-form-group textarea{resize:vertical;min-height:80px;}
+.inner-submit{background:#d4d0c8;border-top:2px solid #ffffff;border-left:2px solid #ffffff;border-right:2px solid #808080;border-bottom:2px solid #808080;box-shadow:1px 1px 0 #404040;padding:4px 16px;font-size:12px;font-family:arial,sans-serif;cursor:pointer;}
+.inner-submit:hover{background:#c8c4bc;}
+.inner-submit:active{border-top:2px solid #808080;border-left:2px solid #808080;border-right:2px solid #fff;border-bottom:2px solid #fff;box-shadow:none;transform:translate(1px,1px);}
+.inner-back{font-size:11px;color:#666;margin-bottom:8px;}
+.inner-back a{color:#0000cc;cursor:pointer;}
+.tag-box{display:inline-block;background:#fffde7;border:1px solid #ffcc00;font-size:11px;padding:2px 8px;margin:2px 4px 2px 0;color:#333;}
+.notice-box{background:#fffde7;border:1px solid #ffcc00;padding:8px 12px;font-size:12px;margin-bottom:12px;}
+.green-box{background:#f0fff0;border:1px solid #009900;padding:8px 12px;font-size:12px;margin-bottom:12px;}
+.vtg-gallery{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px;}
+.vtg-thumb{width:120px;height:90px;background:#ddd;border:2px solid #999;display:flex;align-items:center;justify-content:center;font-size:28px;cursor:pointer;transition:border-color .15s;flex-direction:column;gap:4px;}
+.vtg-thumb:hover{border-color:#3366cc;}
+.vtg-thumb span{font-size:10px;color:#555;}
+.org-card{border:1px solid #ccc;margin-bottom:10px;padding:8px;display:flex;gap:10px;align-items:flex-start;}
+.org-avatar{width:40px;height:40px;background:#3366cc;border:1px solid #999;flex-shrink:0;display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px;}
+.org-name{font-size:13px;font-weight:bold;color:#0000cc;}
+.org-role{font-size:11px;color:#cc0000;}
+.org-bio{font-size:11px;color:#333;margin-top:3px;}
+.creator-grid{display:flex;gap:18px;flex-wrap:wrap;margin:14px 0;}
+.creator-card{display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;text-decoration:none;}
+.creator-card:hover .creator-avatar{border-color:#cc0000;box-shadow:0 0 0 2px #ffcccc;}
+.creator-avatar{width:80px;height:80px;border-radius:50%;border:3px solid #3366cc;background:#dde4f5;display:flex;align-items:center;justify-content:center;font-size:36px;overflow:hidden;transition:border-color .2s,box-shadow .2s;}
+.creator-label{font-size:11px;color:#333;font-family:arial,sans-serif;text-align:center;}
+.creator-insta{font-size:10px;color:#cc0000;font-style:italic;}
+.org-team-table{width:100%;border-collapse:collapse;font-size:12px;margin-bottom:14px;}
+.org-team-table th{background:#3366cc;color:#fff;padding:5px 10px;text-align:left;font-weight:bold;}
+.org-team-table td{padding:5px 10px;border-bottom:1px solid #ddd;vertical-align:middle;}
+.org-team-table tr:hover td{background:#f0f4ff;}
+.org-team-table a{color:#0000cc;font-size:11px;}
+.insta-badge{display:inline-block;background:#f5f0ff;border:1px solid #cc99ff;border-radius:2px;font-size:10px;padding:1px 5px;color:#551a8b;cursor:pointer;text-decoration:none;}
+.insta-badge:hover{background:#eedeff;}
+</style>
+</head>
+<body>
+<div id="page-home" class="page active">
+  <div class="home-topbar">
+    <a onclick="openPage('about-us')">About Us</a>
+    <a onclick="openPage('registration')">Registration</a>
+    <a onclick="openPage('yaakai')">Yaakai</a>
+    <a onclick="openPage('organisers')">Organisers</a>
+  </div>
+  <div class="home-spacer"></div>
+
+  <div style="text-align:center;margin-bottom:6px;">
+    <span style="display:inline-block;position:relative;">
+      <div style="perspective:700px;display:inline-block;">
+        <div class="logo-text" onclick="window.open('https://www.instagram.com/asteria_2k26_?igsh=MXQ3bHdvenlzaW9zaw==','_blank')" style="cursor:pointer;" title="Follow us on Instagram @asteria_2k26_">
+          <span class="l-b">A</span><span class="l-r1">s</span><span class="l-y">t</span><span class="l-b2">e</span><span class="l-g">r</span><span class="l-r2">i</span><span class="l-ex">a</span><span class="l-exclaim">!</span>
+        </div>
+      </div>
+      <span style="position:absolute;top:6px;right:-28px;font-size:11px;color:#cc0000;font-style:italic;font-family:arial,sans-serif;white-space:nowrap;">beta</span>
+    </span>
+  </div>
+
+  <div class="logo-subtitle">Festival of Celebration and Fun 🪅 &mdash; June 2026</div>
+
+  <div class="search-tabs">
+    <span class="search-tab active" onclick="showTab(this,'about us')">About Us</span>
+    <span class="search-tab" onclick="showTab(this,'registration')">Registration</span>
+    <span class="search-tab" onclick="showTab(this,'yaakai')">Yaakai</span>
+    <span class="search-tab" onclick="showTab(this,'organisers')">Organisers</span>
+  </div>
+
+  <div class="search-form-home">
+    <div class="search-box-outer">
+      <div class="search-input-wrap">
+        <input class="search-input" type="text" id="home-query" placeholder="" onkeydown="if(event.key==='Enter') doSearch()"/>
+      </div>
+      <div class="search-buttons">
+        <button class="btn-1999" onclick="doSearch()">Asteria Search</button>
+        <button class="btn-1999" onclick="doSearchQuery('about us')">I'm Feeling Cultural</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="home-categories">
+    <b>Explore the Festival:</b><br>
+    <a onclick="doSearchQuery('about us')">About Us</a> &middot;
+    <a onclick="doSearchQuery('registration')">Registration</a> &middot;
+    <a onclick="doSearchQuery('yaakai')">Yaakai</a> &middot;
+    <a onclick="doSearchQuery('organisers')">Organisers</a> &middot;
+    <a onclick="openPage('creators')" style="color:#cc0000;font-weight:bold;">Creators</a>
+  </div>
+  <div class="home-footer">
+    <a href="#">Advertise&nbsp;with&nbsp;Us</a>
+    <a href="#">Business&nbsp;Solutions</a>
+    <a href="#">Services&nbsp;&amp;&nbsp;Tools</a>
+    <a href="#">Jobs,&nbsp;Press,&nbsp;&amp;&nbsp;Help</a><br>
+    &copy;2026 Asteria &nbsp;&middot;&nbsp;
+    <a href="#">Privacy Policy</a> &nbsp;&middot;&nbsp;
+    <a href="#">Terms of Use</a>
+  </div>
+</div>
+
+<div id="page-results" class="page">
+  <div class="results-topnav">
+    <span class="results-logo" onclick="goHome()">
+      <span style="color:#3366cc">A</span><span style="color:#cc0000">S</span>
+    </span>
+    <div class="results-search-wrap">
+      <input class="results-input" type="text" id="results-query" onkeydown="if(event.key==='Enter') doSearchFromResults()"/>
+      <button class="btn-1999" onclick="doSearchFromResults()">Search</button>
+    </div>
+    <span style="font-size:11px;color:#666;">
+      <a onclick="goHome()">Advanced&nbsp;Search</a> &nbsp;
+      <a onclick="goHome()">Preferences</a>
+    </span>
+  </div>
+  <div class="results-tabs">
+    <span class="results-tab active" id="rtab-active">About Us</span>
+    <span class="results-tab" onclick="doSearchQuery('registration')">Registration</span>
+    <span class="results-tab" onclick="doSearchQuery('yaakai')">Yaakai</span>
+    <span class="results-tab" onclick="doSearchQuery('organisers')">Organisers</span>
+    <span class="results-tab" onclick="doSearchQuery('all')">Directory</span>
+  </div>
+  <div class="results-layout">
+    <div class="results-main">
+      <div class="results-stats" id="results-stats">
+        Searched Asteria for <b id="query-display"></b> &mdash;
+        Results <b>1&ndash;10</b> of about <b id="result-count">0</b>.
+        Search took <b>0.14</b> seconds.
+      </div>
+      <div id="results-list"></div>
+      <div class="results-pagination">
+        <div style="margin-bottom:4px;font-size:11px;color:#666;">Result page:</div>
+        <span style="font-family:'Arial Black',sans-serif;font-size:18px;color:#3366cc;">A</span><span style="font-family:'Arial Black',sans-serif;font-size:18px;color:#cc0000;">S</span>
+        <span class="page-num current">1</span>
+        <span class="page-num" onclick="goToExternalPage(2)">2</span>
+        <span class="page-num" onclick="goToExternalPage(3)">3</span>
+        <span class="page-num" onclick="goToExternalPage(4)">4</span>
+        <span class="page-num" onclick="goToExternalPage(5)">5</span>
+        &nbsp;<a style="font-size:12px;cursor:pointer;" onclick="goToExternalPage(2)">Next &gt;</a>
+      </div>
+    </div>
+    <div class="results-sidebar">
+      <div class="sidebar-box sponsored-box">
+        <div class="sponsored-title">Sponsored Links</div>
+        <div class="sidebar-body">
+          <a onclick="openPage('registration')"><b>Register for Asteria 2026</b></a>
+          <p>Secure your spot at the Festival of Celebration and Fun 🪅. June 2026, Madha Medical College.</p>
+          <span style="font-size:10px;color:#009900">www.asteria.org/register</span>
+        </div>
+      </div>
+      <div class="sidebar-box">
+        <div class="sidebar-title">Quick Links</div>
+        <div class="sidebar-body">
+          <a onclick="openPage('about-us')">About Us</a>
+          <a onclick="openPage('registration')">Registration</a>
+          <a onclick="openPage('yaakai')">Yaakai</a>
+          <a onclick="openPage('organisers')">Organisers</a>
+          <hr style="border:none;border-top:1px solid #ccc;margin:4px 0;">
+          <p><b>Dates:</b> June 2026</p>
+          <p><b>Venue:</b> Madha Medical College &amp; Research Institute</p>
+        </div>
+      </div>
+      <div class="sidebar-box">
+        <div class="sidebar-title">Categories</div>
+        <div class="sidebar-body">
+          <a onclick="doSearchQuery('about us')">About Us</a>
+          <a onclick="doSearchQuery('registration')">Registration</a>
+          <a onclick="doSearchQuery('yaakai')">Yaakai</a>
+          <a onclick="doSearchQuery('organisers')">Organisers</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="results-footer">
+    <a onclick="goHome()">Asteria Home</a>
+    <a href="#">Advertise with Us</a>
+    <a href="#">Business Solutions</a>
+    <a href="#">&copy;2026</a>
+    &nbsp;&nbsp;
+    <a href="#">Privacy Policy</a> &nbsp;-&nbsp; <a href="#">Terms of Use</a>
+  </div>
+</div>
+
+<div id="page-about-us" class="page">
+  <div class="inner-topnav">
+    <span class="inner-logo" onclick="goHome()">
+      <span style="color:#3366cc">A</span><span style="color:#cc0000">s</span><span style="color:#ffcc00">t</span><span style="color:#3366cc">e</span><span style="color:#009900">r</span><span style="color:#cc0000">i</span><span style="color:#3366cc">a</span>
+    </span>
+    <span class="inner-breadcrumb">
+      <a onclick="goHome()">Home</a> &gt; <a onclick="doSearchQuery('about us')">About Us</a> &gt; About the Festival
+    </span>
+  </div>
+  <div class="inner-body">
+    <div class="inner-back">&laquo; <a onclick="doSearchQuery('about us')">Back to search results</a></div>
+    <div class="inner-page-title">About Asteria — Culturals of Hope and Joy 🪅</div>
+    <div class="inner-meta">www.asteria.org/about &nbsp;&mdash;&nbsp; Last updated: January 2026 &nbsp;&mdash;&nbsp; <span style="color:#009900">Cached</span></div>
+    <div class="notice-box">&#9733; <b>Welcome to Asteria 2026</b> — our fourth annual celebration of student talent and college culture. June 2026, Madha Medical College &amp; Research Institute.</div>
+    <div class="inner-section">
+      <h3>Our Mission</h3>
+      <p>Asteria is an annual cultural festival where medicos show their talents in Music, Dance, Arts, Poetry, Sports and other Extra Curricular Activities. Founded 2022. Now in its fourth year.</p>
+      <p>Every edition is curated around a single guiding question: <i>"What does it mean to belong to a culture?"</i> This year's theme is <b>Roots &amp; Routes</b> — exploring how heritage travels, transforms, and survives across generations.</p>
+    </div>
+    <div class="inner-section">
+      <h3>History</h3>
+      <p>From Magizchi to Asteria.... from house wise sports events to batch wise sports events...... from 10+ overall competitive events to 50+ events.......</p>
+      <p>Now in its fourth year, Asteria has grown into the premier celebration of student talent at Madha Medical College and Research Institute, bringing together students from all batches in a spirit of friendly competition and creative expression.</p>
+    </div>
+    <div class="inner-section">
+      <h3>Key Facts</h3>
+      <table class="inner-table">
+        <tr><th>Founded</th><th>Location</th><th>Annual Events</th><th>Batches Represented</th></tr>
+        <tr><td>2022</td><td>MMCRI, Chennai</td><td>50+</td><td>All Batches</td></tr>
+      </table>
+    </div>
+    <div class="inner-section">
+      <h3>What We Celebrate</h3>
+      <p>
+        <span class="tag-box">Music</span>
+        <span class="tag-box">Dance</span>
+        <span class="tag-box">Arts &amp; Crafts</span>
+        <span class="tag-box">Poetry</span>
+        <span class="tag-box">Sports</span>
+        <span class="tag-box">Drama &amp; Skit</span>
+        <span class="tag-box">Extra Curricular Activities</span>
+      </p>
+    </div>
+    <div class="inner-section">
+      <h3>See Also</h3>
+      <p>
+        <a onclick="openPage('yaakai')">Yaakai — The Cultural Programme</a> &nbsp;&middot;&nbsp;
+        <a onclick="openPage('organisers')">Meet the Organisers</a> &nbsp;&middot;&nbsp;
+        <a onclick="openPage('registration')">Register for 2026</a>
+      </p>
+    </div>
+  </div>
+</div>
+
+<div id="page-registration" class="page">
+  <div class="inner-topnav">
+    <span class="inner-logo" onclick="goHome()">
+      <span style="color:#3366cc">A</span><span style="color:#cc0000">s</span><span style="color:#ffcc00">t</span><span style="color:#3366cc">e</span><span style="color:#009900">r</span><span style="color:#cc0000">i</span><span style="color:#3366cc">a</span>
+    </span>
+    <span class="inner-breadcrumb">
+      <a onclick="goHome()">Home</a> &gt; <a onclick="doSearchQuery('registration')">Registration</a> &gt; Register Now
+    </span>
+  </div>
+  <div class="inner-body">
+    <div class="inner-back">&laquo; <a onclick="doSearchQuery('registration')">Back to search results</a></div>
+    <div class="inner-page-title">Registration — Asteria 2026</div>
+    <div class="inner-meta">www.asteria.org/register &nbsp;&mdash;&nbsp; Registrations open until March 25, 2026</div>
+    <div class="green-box">&#10003; Online registration is now open. Early bird pricing ends <b>February 28, 2026</b>.</div>
+    <div class="inner-section">
+      <h3>Pass Options</h3>
+      <table class="inner-table">
+        <tr><th>Pass Type</th><th>Price</th><th>Includes</th><th>Availability</th></tr>
+        <tr><td><b>Day Pass</b></td><td>$45</td><td>All screenings &amp; gallery for 1 day</td><td>Available</td></tr>
+        <tr><td><b>Full Festival</b></td><td>$110</td><td>All 7 days, opening &amp; closing gala</td><td>Available</td></tr>
+        <tr><td><b>Patron Pass</b></td><td>$220</td><td>Full festival + VIP lounge, signed poster, director Q&amp;A</td><td>Limited</td></tr>
+        <tr><td><b>Press Pass</b></td><td>Free</td><td>Full access + press room (accreditation required)</td><td>Apply below</td></tr>
+      </table>
+    </div>
+    <div class="inner-section">
+      <h3>Register Online</h3>
+      <div class="inner-form-group"><label>Full Name *</label><input type="text" placeholder="e.g. Jean Renoir"/></div>
+      <div class="inner-form-group"><label>Email Address *</label><input type="email" placeholder="you@example.com"/></div>
+      <div class="inner-form-group"><label>Select Pass *</label>
+        <select>
+          <option>-- Choose a pass --</option>
+          <option>Day Pass — $45</option>
+          <option>Full Festival Pass — $110</option>
+          <option>Patron Pass — $220</option>
+          <option>Press Accreditation (Free)</option>
+        </select>
+      </div>
+      <div class="inner-form-group"><label>Country</label><input type="text" placeholder="France"/></div>
+      <div class="inner-form-group"><label>Special Requirements / Notes</label><textarea placeholder="Dietary needs, accessibility requirements, etc."></textarea></div>
+      <button class="inner-submit" onclick="alert('Thank you! Your registration has been received. A confirmation email will follow.')">Submit Registration</button>
+    </div>
+    <div class="inner-section">
+      <h3>See Also</h3>
+      <p><a onclick="openPage('about-us')">About Asteria</a> &nbsp;&middot;&nbsp; <a onclick="openPage('yaakai')">Yaakai Programme</a> &nbsp;&middot;&nbsp; <a onclick="openPage('organisers')">Contact Organisers</a></p>
+    </div>
+  </div>
+</div>
+
+<div id="page-yaakai" class="page">
+  <div class="inner-topnav">
+    <span class="inner-logo" onclick="goHome()">
+      <span style="color:#3366cc">A</span><span style="color:#cc0000">s</span><span style="color:#ffcc00">t</span><span style="color:#3366cc">e</span><span style="color:#009900">r</span><span style="color:#cc0000">i</span><span style="color:#3366cc">a</span>
+    </span>
+    <span class="inner-breadcrumb">
+      <a onclick="goHome()">Home</a> &gt; <a onclick="doSearchQuery('yaakai')">Yaakai</a> &gt; Cultural Programme
+    </span>
+  </div>
+  <div class="inner-body">
+    <div class="inner-back">&laquo; <a onclick="doSearchQuery('yaakai')">Back to search results</a></div>
+    <div class="inner-page-title">Yaakai — The Cultural Heart of Asteria</div>
+    <div class="inner-meta">www.asteria.org/yaakai &nbsp;&mdash;&nbsp; Programme updated: June 2026 &nbsp;&mdash;&nbsp; <span style="color:#009900">Cached</span></div>
+    <div class="notice-box"><b>Yaakai</b> (யாக்கை) — meaning "body" or "vessel" in Tamil — is the living cultural programme at the core of Asteria, presenting traditional arts, world music, and film from South Asia and the Tamil diaspora.</div>
+    <div class="inner-section">
+      <h3>About Yaakai</h3>
+      <p>Yaakai is a curated strand within Asteria that centres the voices, stories, and art forms of Tamil culture alongside broader South Asian and diasporic traditions. It celebrates the living body of culture — music, dance, film, poetry, and oral storytelling — as a vessel for collective memory.</p>
+      <p>The 2026 Yaakai programme features over 20 events across 7 days, including world premieres, archival screenings, live performances, and panel discussions.</p>
+    </div>
+    <div class="inner-section">
+      <h3>2026 Programme Highlights</h3>
+      <table class="inner-table">
+        <tr><th>Date</th><th>Event</th><th>Type</th><th>Venue</th></tr>
+        <tr><td>June (TBD)</td><td>Yaakai Opening: Kolam of Light</td><td>Performance</td><td>Grand Hall</td></tr>
+        <tr><td>June (TBD)</td><td>Shadows of the Kaveri — World Premiere</td><td>Film</td><td>Screen One</td></tr>
+        <tr><td>June (TBD)</td><td>Carnatic Fusion Night</td><td>Music</td><td>Courtyard Stage</td></tr>
+        <tr><td>June (TBD)</td><td>Tamil Cinema Retrospective: 1960s–1980s</td><td>Film</td><td>Screen Two</td></tr>
+        <tr><td>June (TBD)</td><td>Bharatanatyam: New Vocabularies</td><td>Dance</td><td>Main Stage</td></tr>
+        <tr><td>June (TBD)</td><td>Oral Histories Panel: Memory &amp; Migration</td><td>Talk</td><td>Library Hall</td></tr>
+        <tr><td>June (TBD)</td><td>Photography: The Tamil Diaspora 1970–2010</td><td>Exhibition</td><td>East Wing</td></tr>
+        <tr><td>June (TBD)</td><td>Yaakai Closing Ceremony &amp; Awards</td><td>Gala</td><td>Grand Hall</td></tr>
+      </table>
+    </div>
+    <div class="inner-section">
+      <h3>Gallery — Past Editions</h3>
+      <div class="vtg-gallery">
+        <div class="vtg-thumb">🎭<span>Kolam 2024</span></div>
+        <div class="vtg-thumb">📽️<span>Screening</span></div>
+        <div class="vtg-thumb">🥁<span>Carnatic</span></div>
+        <div class="vtg-thumb">💃<span>Bharatanatyam</span></div>
+        <div class="vtg-thumb">🖼️<span>Exhibition</span></div>
+        <div class="vtg-thumb">🎙️<span>Panel 2023</span></div>
+      </div>
+      <p style="font-size:11px;color:#666;">[Click thumbnails to view — full gallery at www.asteria.org/yaakai/gallery]</p>
+    </div>
+    <div class="inner-section">
+      <h3>See Also</h3>
+      <p><a onclick="openPage('about-us')">About Asteria</a> &nbsp;&middot;&nbsp; <a onclick="openPage('registration')">Register for 2026</a> &nbsp;&middot;&nbsp; <a onclick="openPage('organisers')">Meet the Curators</a></p>
+    </div>
+  </div>
+</div>
+
+<div id="page-organisers" class="page">
+  <div class="inner-topnav">
+    <span class="inner-logo" onclick="goHome()">
+      <span style="color:#3366cc">A</span><span style="color:#cc0000">s</span><span style="color:#ffcc00">t</span><span style="color:#3366cc">e</span><span style="color:#009900">r</span><span style="color:#cc0000">i</span><span style="color:#3366cc">a</span>
+    </span>
+    <span class="inner-breadcrumb">
+      <a onclick="goHome()">Home</a> &gt; <a onclick="doSearchQuery('organisers')">Organisers</a> &gt; Meet the Team
+    </span>
+  </div>
+  <div class="inner-body">
+    <div class="inner-back">&laquo; <a onclick="doSearchQuery('organisers')">Back to search results</a></div>
+    <div class="inner-page-title">Organisers — The Asteria Team</div>
+    <div class="inner-meta">www.asteria.org/team &nbsp;&mdash;&nbsp; Updated: May 2026 &nbsp;&mdash;&nbsp; <span style="color:#009900">Cached</span></div>
+    <div class="inner-section">
+      <h3>Festival Leadership</h3>
+      <table class="org-team-table">
+        <tr>
+          <th>#</th>
+          <th>Name</th>
+          <th>Position</th>
+          <th>Instagram</th>
+        </tr>
+        <tr>
+          <td>1</td>
+          <td><b>Felix Hanniel Franklin</b></td>
+          <td><span style="color:#cc0000;">Cultural Rep</span></td>
+          <td><a class="insta-badge" href="#" target="_blank">@— (add link)</a></td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td><b>Grace Angel</b></td>
+          <td><span style="color:#cc0000;">Cultural Rep</span></td>
+          <td><a class="insta-badge" href="#" target="_blank">@— (add link)</a></td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td>Priya Selvam</td>
+          <td>Festival Director</td>
+          <td><a class="insta-badge" href="#" target="_blank">@— (add link)</a></td>
+        </tr>
+        <tr>
+          <td>4</td>
+          <td>Marc Lefebvre</td>
+          <td>Head of Programming</td>
+          <td><a class="insta-badge" href="#" target="_blank">@— (add link)</a></td>
+        </tr>
+        <tr>
+          <td>5</td>
+          <td>Anitha Krishnan</td>
+          <td>Head of Yaakai</td>
+          <td><a class="insta-badge" href="#" target="_blank">@— (add link)</a></td>
+        </tr>
+        <tr>
+          <td>6</td>
+          <td>Julien Moreau</td>
+          <td>Head of Exhibitions</td>
+          <td><a class="insta-badge" href="#" target="_blank">@— (add link)</a></td>
+        </tr>
+        <tr>
+          <td>7</td>
+          <td>Fatima Al-Hassan</td>
+          <td>Head of Partnerships</td>
+          <td><a class="insta-badge" href="#" target="_blank">@— (add link)</a></td>
+        </tr>
+      </table>
+      <p style="font-size:11px;color:#666;">&#9432; Instagram links can be added directly in the HTML — replace the <code>href="#"</code> values with each person's profile URL.</p>
+    </div>
+    <div class="inner-section">
+      <h3>Contact the Team</h3>
+      <div class="inner-form-group"><label>Your Name *</label><input type="text" placeholder="Full name"/></div>
+      <div class="inner-form-group"><label>Email *</label><input type="email" placeholder="you@example.com"/></div>
+      <div class="inner-form-group"><label>Enquiry Type</label>
+        <select>
+          <option>General enquiry</option>
+          <option>Press &amp; accreditation</option>
+          <option>Sponsorship</option>
+          <option>Film submission</option>
+          <option>Volunteering</option>
+        </select>
+      </div>
+      <div class="inner-form-group"><label>Message *</label><textarea placeholder="How can we help?"></textarea></div>
+      <button class="inner-submit" onclick="alert('Message sent! The Asteria team will respond within 3 working days.')">Send Message</button>
+    </div>
+    <div class="inner-section">
+      <h3>See Also</h3>
+      <p><a onclick="openPage('about-us')">About Asteria</a> &nbsp;&middot;&nbsp; <a onclick="openPage('yaakai')">Yaakai Programme</a> &nbsp;&middot;&nbsp; <a onclick="openPage('registration')">Register for 2026</a></p>
+    </div>
+  </div>
+</div>
+
+<div id="page-creators" class="page">
+  <div class="inner-topnav">
+    <span class="inner-logo" onclick="goHome()">
+      <span style="color:#3366cc">A</span><span style="color:#cc0000">s</span><span style="color:#ffcc00">t</span><span style="color:#3366cc">e</span><span style="color:#009900">r</span><span style="color:#cc0000">i</span><span style="color:#3366cc">a</span>
+    </span>
+    <span class="inner-breadcrumb">
+      <a onclick="goHome()">Home</a> &gt; Creators
+    </span>
+  </div>
+  <div class="inner-body">
+    <div class="inner-back">&laquo; <a onclick="goHome()">Back to Home</a></div>
+    <div class="inner-page-title">Creators — The Minds Behind Asteria 2k26</div>
+    <div class="inner-meta">www.asteria.org/creators &nbsp;&mdash;&nbsp; 2026</div>
+    <div class="notice-box">&#9996; The creative team who built this experience. Tap any profile to visit their Instagram.</div>
+    <div class="inner-section">
+      <h3>Meet the Creators</h3>
+      <div class="creator-grid">
+
+        <!-- Creator 1 -->
+        <div class="creator-card" onclick="window.open('https://www.instagram.com/__dsouzza__?igsh=Znc3cmx2b296OXlz','_blank')">
+          <div class="creator-avatar">
+            <!-- Anonymous silhouette SVG -->
+            <svg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="30" cy="22" r="13" fill="#8899cc"/>
+              <ellipse cx="30" cy="54" rx="22" ry="16" fill="#8899cc"/>
+            </svg>
+          </div>
+          <div class="creator-label"><b>Creator 01</b></div>
+          <div class="creator-insta">📸 @__dsouzza__</div>
+        </div>
+
+        <!-- Creator 2 -->
+        <div class="creator-card" onclick="window.open('https://www.instagram.com/jayanthan11?igsh=Y2xmOHdhd2pwODMz','_blank')">
+          <div class="creator-avatar" style="border-color:#cc0000;background:#f5dde0;">
+            <svg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="30" cy="22" r="13" fill="#cc7788"/>
+              <ellipse cx="30" cy="54" rx="22" ry="16" fill="#cc7788"/>
+            </svg>
+          </div>
+          <div class="creator-label"><b>Creator 02</b></div>
+          <div class="creator-insta">📸 @jayanthan11</div>
+        </div>
+
+        <!-- Creator 3 -->
+        <div class="creator-card" onclick="window.open('https://www.instagram.com/ezhil_aj_003?igsh=dXMxbWluanMybmFv','_blank')">
+          <div class="creator-avatar" style="border-color:#009900;background:#d5edda;">
+            <svg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="30" cy="22" r="13" fill="#55aa66"/>
+              <ellipse cx="30" cy="54" rx="22" ry="16" fill="#55aa66"/>
+            </svg>
+          </div>
+          <div class="creator-label"><b>Creator 03</b></div>
+          <div class="creator-insta">📸 @ezhil_aj_003</div>
+        </div>
+
+      </div>
+      <p style="font-size:11px;color:#666;margin-top:6px;">&#128274; Profiles are anonymous — tap to connect on Instagram.</p>
+    </div>
+    <div class="inner-section">
+      <h3>See Also</h3>
+      <p>
+        <a onclick="openPage('about-us')">About Asteria</a> &nbsp;&middot;&nbsp;
+        <a onclick="openPage('organisers')">Organisers</a> &nbsp;&middot;&nbsp;
+        <a onclick="openPage('registration')">Register for 2026</a>
+      </p>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── External page links for pagination (add your URLs here) ──────────────────
+const EXTERNAL_PAGE_LINKS = {
+  2: 'YOUR_LINK_FOR_PAGE_2_HERE',   // e.g. 'https://example.com/page2'
+  3: 'YOUR_LINK_FOR_PAGE_3_HERE',
+  4: 'YOUR_LINK_FOR_PAGE_4_HERE',
+  5: 'YOUR_LINK_FOR_PAGE_5_HERE'
+};
+
+function goToExternalPage(num) {
+  const url = EXTERNAL_PAGE_LINKS[num];
+  if (url && url !== 'YOUR_LINK_FOR_PAGE_' + num + '_HERE') {
+    window.open(url, '_blank');
+  } else {
+    alert('Page ' + num + ' link not configured yet. Add your URL to EXTERNAL_PAGE_LINKS in the script.');
+  }
+}
+// ────────────────────────────────────────────────────────────────────────────
+
+const PAGES_DATA = {
+  'about us': [
+    {title:'About Asteria — Culturals of Hope and Joy',url:'www.asteria.org/about',desc:'The official about page for Asteria where medicos show their talents in Music, Dance, Arts, Poetry, Sports and other Extra Curricular Activities. Founded 2022. Now its fourth year.',page:'about-us',cached:true},
+    {title:'Asteria 2026 — Roots &amp; Routes',url:'www.asteria.org/2026',desc:'This year\'s culturals theme is set to be RETRO style ....the reason which ur seeing this webpage....click link to see more surprises.',page:'about-us',cached:true},
+    {title:'History of Asteria — From 2022 to Today',url:'www.asteria.org/about/history',desc:'From Magizchi to Asteria....from house wise sports events to batch wise sports events......from 10+ overall competitive events to 50+events.......',page:'about-us',cached:false},
+    {title:'Asteria Mission Statement — Cultural Values',url:'www.asteria.org/about/mission',desc:'We believe and have experienced that culturals in a college is one of the most important, engaging &amp; entertaining .....where students show their talent and ideas....',page:'about-us',cached:true}
+  ],
+  'registration': [
+    {title:'Register for Asteria 2026 — Tickets &amp; Passes',url:'www.asteria.org/register',desc:'Day Pass $45 · Full Festival $110 · Patron Pass $220 · Press (Free). Online registration now open. Early bird pricing until May 31. Includes all screenings, gallery access, and gala events.',page:'registration',cached:true},
+    {title:'Asteria Pass Comparison — What\'s Included?',url:'www.asteria.org/register/passes',desc:'Detailed comparison of all Asteria 2026 passes. Patron Pass holders receive VIP lounge access, director Q&A priority seating, signed festival poster, and name in the official programme.',page:'registration',cached:true},
+    {title:'Press Accreditation — Asteria 2026',url:'www.asteria.org/register/press',desc:'Journalists, photographers, and filmmakers may apply for a complimentary press pass. Includes full festival access, press room, and interview facilitation. Apply before June 30.',page:'registration',cached:false},
+    {title:'Group Bookings — Schools &amp; Cultural Institutions',url:'www.asteria.org/register/groups',desc:'Special group rates available for schools, universities, and cultural organisations. Groups of 10+ receive a 25% discount. Contact groups@asteria.org for details.',page:'registration',cached:true}
+  ],
+  'yaakai': [
+    {title:'Yaakai — The Cultural Programme at Asteria',url:'www.asteria.org/yaakai',desc:'Yaakai (யாக்கை) is the living cultural heart of Asteria. Presenting Tamil cinema, Carnatic music, Bharatanatyam dance, oral history, and diasporic arts from South Asia and beyond.',page:'yaakai',cached:true},
+    {title:'Yaakai 2026 Programme — Full Schedule',url:'www.asteria.org/yaakai/programme',desc:'8 days of events: Opening Kolam of Light (June 2026 opening), Shadows of the Kaveri World Premiere, Carnatic Fusion Night, Tamil Cinema Retrospective, Bharatanatyam: New Vocabularies, and the Yaakai Closing Gala.',page:'yaakai',cached:true},
+    {title:'Yaakai Gallery — Past Editions Archive',url:'www.asteria.org/yaakai/gallery',desc:'Browse photographs, film stills, and documentation from Yaakai editions 2018–2024. Archival images of performances, screenings, and exhibitions available for download by press.',page:'yaakai',cached:true},
+    {title:'Tamil Cinema Retrospective — Asteria/Yaakai',url:'www.asteria.org/yaakai/retrospective',desc:'A curated retrospective of Tamil cinema from the 1960s through the 1980s, featuring restored prints of landmark works. Presented with scholarly introductions and post-screening discussions.',page:'yaakai',cached:false}
+  ],
+  'organisers': [
+    {title:'Asteria Organisers — Meet the Team',url:'www.asteria.org/team',desc:'The Asteria team: Priya Selvam (Festival Director), Marc Lefebvre (Head of Film Programming), Anitha Krishnan (Head of Yaakai), Julien Moreau (Exhibitions), Fatima Al-Hassan (Partnerships).',page:'organisers',cached:true},
+    {title:'Priya Selvam — Festival Director, Asteria',url:'www.asteria.org/team/priya-selvam',desc:'Filmmaker and cultural producer. Co-founder of Asteria in 2018. Formerly at TIFF and Cannes. Priya\'s vision shapes every edition of the festival — from theme selection to closing gala.',page:'organisers',cached:true},
+    {title:'Contact the Asteria Team',url:'www.asteria.org/contact',desc:'General: hello@asteria.org · Press: press@asteria.org · Sponsorship: sponsor@asteria.org · Groups: groups@asteria.org · Phone: +1 (555) 280-4400 · Madha Medical College and Research Institute.',page:'organisers',cached:true},
+    {title:'Volunteer with Asteria 2026',url:'www.asteria.org/volunteer',desc:'Join the Asteria volunteer programme. We need 150 volunteers across venue management, guest services, technical support, and community outreach. Apply via the organisers contact form.',page:'organisers',cached:false}
+  ]
+};
+PAGES_DATA['all'] = [...PAGES_DATA['about us'],...PAGES_DATA['registration'],...PAGES_DATA['yaakai'],...PAGES_DATA['organisers']];
+
+let currentResultsQuery = '';
+function goHome(){showPage('home');document.getElementById('home-query').value='';}
+function showPage(id){document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));const el=document.getElementById('page-'+id);if(el)el.classList.add('active');window.scrollTo(0,0);}
+function openPage(id){showPage(id);}
+function showTab(el,query){document.querySelectorAll('.search-tab').forEach(t=>t.classList.remove('active'));el.classList.add('active');doSearchQuery(query);}
+function doSearch(){const q=document.getElementById('home-query').value.trim()||'about us';doSearchQuery(q);}
+function doSearchFromResults(){const q=document.getElementById('results-query').value.trim();if(q)doSearchQuery(q);}
+function doSearchQuery(q){currentResultsQuery=q;renderResults(q);}
+function renderResults(query){
+  showPage('results');
+  document.getElementById('results-query').value=query;
+  document.getElementById('query-display').textContent='"'+query+'"';
+  const qLow=query.toLowerCase();
+  let key='all';
+  if(qLow.includes('about'))key='about us';
+  else if(qLow.includes('regist'))key='registration';
+  else if(qLow.includes('yaakai'))key='yaakai';
+  else if(qLow.includes('organis')||qLow.includes('organiz')||qLow.includes('team'))key='organisers';
+  const results=PAGES_DATA[key]||PAGES_DATA['all'];
+  document.getElementById('result-count').textContent=(results.length*28+14).toLocaleString();
+  const tabMap={'about us':'About Us','registration':'Registration','yaakai':'Yaakai','organisers':'Organisers','all':'Directory'};
+  document.getElementById('rtab-active').textContent=tabMap[key]||'About Us';
+  const list=document.getElementById('results-list');
+  list.innerHTML='';
+  const headMap={'about us':'✦ About the Festival','registration':'✦ Registration & Tickets','yaakai':'✦ Yaakai Cultural Programme','organisers':'✦ Organisers & Team','all':'✦ All Asteria Pages'};
+  const h=document.createElement('div');h.className='result-section-head';h.textContent=headMap[key]||'';list.appendChild(h);
+  results.forEach((p,i)=>{
+    const div=document.createElement('div');div.className='result-item';
+    const visited=i<2?'<span class="visited-badge">visited</span>':'';
+    div.innerHTML=`<div class="result-title"><a onclick="openPage('${p.page}')">${p.title}</a>${visited}</div><div class="result-desc">${p.desc}</div><div class="result-url">${p.url}</div><div class="result-cached">${p.cached?`<a onclick="openPage('${p.page}')">Cached</a> &nbsp;-&nbsp; <a onclick="doSearchQuery('${key}')">Similar pages</a>`:`<span style="color:#999">Not cached</span> &nbsp;-&nbsp; <a onclick="doSearchQuery('${key}')">Similar pages</a>`}</div>`;
+    list.appendChild(div);
+    if(i<results.length-1){const hr=document.createElement('hr');hr.className='retro';list.appendChild(hr);}
+  });
+  window.scrollTo(0,0);
+}
+</script>
+
+</body>
+</html>
